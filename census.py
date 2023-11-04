@@ -1,6 +1,7 @@
 # Using this dataset: https://www.census.gov/data/developers/data-sets/acs-5year.2014.html#list-tab-1036221584
 # American Community Survey 5-Year Data (2009-2021)
 # Taken heavily from https://github.com/AndrewBrodsky/election_predictions
+# https://github.com/Census-ACS/census
 # Want: 2014, 2016, 2018 to use as data, 2020 to predict
 
 import numpy as np
