@@ -1,0 +1,68 @@
+import requests
+import pandas as pd
+
+api_key = 'eXZVbcbai5BQnxfZynP6jjQnu0ZJdl7Ge1oKTel6'  # Replace with your FEC API key
+
+def get_contributions(api_key):
+    base_url = 'https://api.open.fec.gov/v1/schedules/schedule_a/'
+    endpoint = 'efile.json'
+    params = {
+        'api_key': api_key,
+        'per_page': 1000  # Adjust as needed
+    }
+    contributions = []
+
+    while True:
+        response = requests.get(f"{base_url}{endpoint}", params=params)
+        data = response.json()
+        
+        if "results" in data:
+            contributions.extend(data['results'])
+
+        if "pagination" in data and "last_indexes" in data["pagination"]:
+            params.update(data["pagination"]["last_indexes"])
+        else:
+            break
+
+    return contributions
+
+def get_expenditures(api_key):
+    base_url = 'https://api.open.fec.gov/v1/schedules/schedule_b/'
+    endpoint = 'efile.json'
+    params = {
+        'api_key': api_key,
+        'per_page': 1000  # Adjust as needed
+    }
+    expenditures = []
+
+    while True:
+        response = requests.get(f"{base_url}{endpoint}", params=params)
+        data = response.json()
+
+        if "results" in data:
+            expenditures.extend(data['results'])
+
+        if "pagination" in data and "last_indexes" in data["pagination"]:
+            params.update(data["pagination"]["last_indexes"])
+        else:
+            break
+
+    return expenditures
+
+def combine_contributions_and_expenditures(contributions, expenditures):
+    # Create DataFrames for contributions and expenditures
+    contributions_df = pd.DataFrame(contributions)
+    expenditures_df = pd.DataFrame(expenditures)
+
+    # Merge the DataFrames based on a common key (e.g., campaign_id)
+    combined_data = pd.merge(contributions_df, expenditures_df, on='campaign_id', how='inner')
+
+    return combined_data
+
+if __name__ == "__main__":
+    contributions_data = get_contributions(api_key)
+    expenditures_data = get_expenditures(api_key)
+    combined_data = combine_contributions_and_expenditures(contributions_data, expenditures_data)
+    
+    # Save the combined data to a CSV file
+    combined_data.to_csv('campaign_data.csv', index=False)
