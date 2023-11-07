@@ -18,12 +18,20 @@ def get_info():         # returns acs codes and state abbreviations
         "Multiracial" : "B02001_008E",
         "Male" : "B01001_002E",
         "Female" : "B01001_026E",
-        "Marital status" : "B06008_001E",
+        #"Marital status" : "B06008_001E",
         "Not a citizen" : "B05001_006E",
-        "Citizen by naturalization" : "B05001_005E",
+        #"Citizen by naturalization" : "B05001_005E",
         #"Born in state of residence" : "B05002_003E",
         #"Born in other state" : "B05002_004E",
-        "Born in US" : "B05012_002E",
+        #"Born in US" : "B05012_002E",
+        "Male 18+ birthright" : "B05003_009E",
+        "Male 18+ bloodright" : "B05003_010E",
+        "Male 18+ naturalized" : "B05003_011E",
+        "Male 18+ not citizen" : "B05003_012E",
+        "Female 18+ birthright" : "B05003_020E",
+        "Female 18+ bloodright" : "B05003_021E",
+        "Female 18+ naturalized" : "B05003_022E",
+        "Female 18+ not citizen" : "B05003_023E",
         "Less than HS" : "B06009_002E",
         "HS grad" : "B06009_003E",
         "Some college" : "B06009_004E",
@@ -151,13 +159,14 @@ def get_info():         # returns acs codes and state abbreviations
         "Puerto Rico": "72"
     }   
 
-    acs_codes = list(acs_codes.values())
     state_abbrs = list(states.values())
     state_fips = list(state_fips.values())
 
     return acs_codes, state_abbrs, state_fips
 
 variables, state_abbrs, state_fips = get_info()
+acs_codes = list(variables.values())
+acs_variables = list(variables.keys())
 
 all_data = pd.DataFrame()
 
@@ -167,7 +176,7 @@ for year in years:
             "acs5", 
             year, 
             censusdata.censusgeo([("state", state), ("congressional district", "*")]), 
-            variables,
+            acs_codes,
             key = api_key
         )
 
@@ -180,6 +189,9 @@ for year in years:
 
 all_data.reset_index(inplace=True, drop=True)
 #all_data["District"] = all_data["congressional district"]
+
+inv_map = {v: k for k, v in variables.items()}
+all_data.rename(columns=inv_map, inplace=True)
 
 all_data.to_csv("census.csv", index=False)
 all_data.to_json("census.json", orient="records")
