@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+#fix this
 url = 'https://www.politico.com/2020-election/results/alabama/house/'
 
 response = requests.get(url)
