@@ -1,14 +1,14 @@
 import requests
 import pandas as pd
 
-api_key = 'eXZVbcbai5BQnxfZynP6jjQnu0ZJdl7Ge1oKTel6'  # Replace with your FEC API key
+api_key = 'eXZVbcbai5BQnxfZynP6jjQnu0ZJdl7Ge1oKTel6'
 
 def get_contributions(api_key):
     base_url = 'https://api.open.fec.gov/v1/schedules/schedule_a/'
     endpoint = 'efile.json'
     params = {
         'api_key': api_key,
-        'per_page': 1000  # Adjust as needed
+        'per_page': 1000  
     }
     contributions = []
 
@@ -31,7 +31,7 @@ def get_expenditures(api_key):
     endpoint = 'efile.json'
     params = {
         'api_key': api_key,
-        'per_page': 1000  # Adjust as needed
+        'per_page': 1000  
     }
     expenditures = []
 
@@ -54,7 +54,7 @@ def combine_contributions_and_expenditures(contributions, expenditures):
     contributions_df = pd.DataFrame(contributions)
     expenditures_df = pd.DataFrame(expenditures)
 
-    # Merge the DataFrames based on a common key (e.g., campaign_id)
+    # Merge the DataFrames based on a common key 
     combined_data = pd.merge(contributions_df, expenditures_df, on='campaign_id', how='inner')
 
     return combined_data
