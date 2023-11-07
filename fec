@@ -26,11 +26,6 @@ def get_fec_data(api_key, endpoint, year):
         if 'results' in data:
             data_list.extend(data['results'])
 
-        if 'pagination' in data and 'last_indexes' in data['pagination']:
-            params.update(data['pagination']['last_indexes'])
-        else:
-            break
-
     return data_list
 
 def get_expenditures_by_district(api_key, year):
@@ -53,10 +48,7 @@ def get_expenditures_by_district(api_key, year):
                 data = response.json()
                 if 'results' in data:
                     data_list.extend(data['results'])
-                if 'pagination' in data and 'last_indexes' in data['pagination']:
-                    params.update(data['pagination']['last_indexes'])
-                else:
-                    break
+
             except ValueError:
                 print('Received empty or invalid JSON response.')
                 break
