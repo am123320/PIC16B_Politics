@@ -1,0 +1,82 @@
+import numpy as np
+import pandas as pd
+import requests
+
+api_key = 'eXZVbcbai5BQnxfZynP6jjQnu0ZJdl7Ge1oKTel6'
+
+years = ["2014", "2016", "2018", "2020"]
+
+
+def get_fec_data(api_key, endpoint, year):
+    base_url = 'https://api.open.fec.gov/v1/'
+
+    params = {
+        'api_key': api_key,
+        'year': year,
+        'sort': '-contribution_receipt_date' if endpoint == 'schedules/schedule_a' else '-disbursement_date',
+        'per_page': 100  
+    }
+
+    data_list = []
+
+    while True:
+        response = requests.get(f'{base_url}{endpoint}/efile.json', params=params)
+        data = response.json()
+
+        if 'results' in data:
+            data_list.extend(data['results'])
+
+        if 'pagination' in data and 'last_indexes' in data['pagination']:
+            params.update(data['pagination']['last_indexes'])
+        else:
+            break
+
+    return data_list
+
+def get_expenditures_by_district(api_key, year):
+    base_url = 'https://api.open.fec.gov/v1/schedules/schedule_b'
+
+    params = {
+        'api_key': api_key,
+        'year': year,
+        'sort': '-disbursement_date',
+        'per_page': 100  
+    }
+
+    data_list = []
+
+    while True:
+        response = requests.get(f'{base_url}/efile.json', params=params)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                if 'results' in data:
+                    data_list.extend(data['results'])
+                if 'pagination' in data and 'last_indexes' in data['pagination']:
+                    params.update(data['pagination']['last_indexes'])
+                else:
+                    break
+            except ValueError:
+                print('Received empty or invalid JSON response.')
+                break
+        else:
+            print('Failed to retrieve data. Status code:', response.status_code)
+            break
+
+    return data_list
+
+
+def main():
+    for year in years:
+        contributions_data = get_fec_data(api_key, 'schedules/schedule_a', year)
+        expenditures_data = get_expenditures_by_district(api_key, year)
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
+
