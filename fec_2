@@ -19,11 +19,6 @@ def get_contributions(api_key):
         if "results" in data:
             contributions.extend(data['results'])
 
-        if "pagination" in data and "last_indexes" in data["pagination"]:
-            params.update(data["pagination"]["last_indexes"])
-        else:
-            break
-
     return contributions
 
 def get_expenditures(api_key):
@@ -42,10 +37,6 @@ def get_expenditures(api_key):
         if "results" in data:
             expenditures.extend(data['results'])
 
-        if "pagination" in data and "last_indexes" in data["pagination"]:
-            params.update(data["pagination"]["last_indexes"])
-        else:
-            break
 
     return expenditures
 
