@@ -28,7 +28,7 @@ for year in years:
 
         data["Year"] = year
         data["State FIPS"] = state
-        data["State"] = state_abbrs[state_fips.index(state)]
+        data["State Abbr"] = state_abbrs[state_fips.index(state)]
 
         number = data.index.astype(str).str.split().str[2]
         if number[0] == "(at":
