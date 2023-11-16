@@ -7,14 +7,7 @@ def get_url(state, year):
     one_url = "https://en.wikipedia.org/wiki/" + str(year) + "_United_States_House_of_Representatives_election_in_" + state_url
 
     target_text = "does not have an article"
-
-    # try:
-    #     response = requests.get(multi_url)
-    # except requests.exceptions.RequestException:
-    #     response = requests.get(one_url)
-
     response = requests.get(multi_url)
-
     content = response.text 
     matches = find_exact_match(content, target_text)
 
