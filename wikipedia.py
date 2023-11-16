@@ -14,7 +14,6 @@ state_abbrs = list(state_abbrs.values())
 
 for year in years: 
     for state in state_names:
-        # print(state)
 
         url = get_url(state, year)
         
@@ -50,15 +49,10 @@ for year in years:
                         dem_votes = replace_if_not_number(columns[1].text)
                         dem_votes = int(dem_votes.replace(',', ''))   
 
-                    # if columns[7].text == "100%" or columns[7].text == "100.0%":
-                    #     tot_votes = replace_if_not_number(columns[6].text)
-                    # else:
-                    #     tot_votes = tot_votes = replace_if_not_number(columns[7].text)
                     if columns[-2].text == "100%" or columns[-2].text == "100.0%" or columns[-2].text == "100.00%":
                         tot_votes = replace_if_not_number(columns[-3].text)
                     else:
                         tot_votes = tot_votes = replace_if_not_number(columns[-2].text)
-                    # tot_votes = replace_if_not_number(columns[-3].text)
                     tot_votes = int(tot_votes.replace(',', ''))
 
                     districts.append(district_name)
@@ -162,8 +156,6 @@ for year in years:
             'Year': [year] * len(districts),
             'State': state
         }
-
-        #print(data)
 
         df = pd.DataFrame(data)
 
