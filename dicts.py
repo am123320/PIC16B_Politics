@@ -113,6 +113,8 @@ def acs():
         "Total Population" : "B01003_001E",
         "Median Age" : "B01002_001E",
         "White" : "B02001_002E",
+        "White (non Hispanic or Latino)": "B01001H_001E",
+        "Hispanic or Latino" : "B01001I_001E",
         "Black" : "B02001_003E",
         "American Indian" : "B02001_004E",
         "Asian" : "B02001_005E",
