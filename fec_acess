@@ -1,19 +1,18 @@
 import requests
 import pandas as pd
 
-# Replace 'YOUR_API_KEY' with your actual API key obtained from the FEC website
-api_key = 'eXZVbcbai5BQnxfZynP6jjQnu0ZJdl7Ge1oKTel6'
+api_key = 'YOUR_API_KEY'
 base_url = 'https://api.open.fec.gov/v1'
 
-# Function to get contributions by committee type, year, state, and district
-def get_contributions(api_key, committee_type, year, state=None, district=None):
+# get contributions by committee type (House), year, state, and district
+def get_contributions(api_key, year, state=None, district=None):
+    committee_type = 'H'  # House committees
     url = f'{base_url}/schedules/schedule_a/'
     params = {
         'api_key': api_key,
         'committee_type': committee_type,
         'min_receipt_date': f'{year}-01-01',
         'max_receipt_date': f'{year}-12-31',
-        'per_page': 100,  # Adjust the number of results per page as needed
     }
 
     if state:
@@ -25,18 +24,17 @@ def get_contributions(api_key, committee_type, year, state=None, district=None):
     response = requests.get(url, params=params)
     data = response.json()
 
-    # 'results' key might not exist at the top level, so return the entire response
     return data
 
-# Function to get expenditures by committee type, year, state, and district
-def get_expenditures(api_key, committee_type, year, state=None, district=None):
+# get expenditures by committee type (House), year, state, and district
+def get_expenditures(api_key, year, state=None, district=None):
+    committee_type = 'H'  # House committees
     url = f'{base_url}/schedules/schedule_b/'
     params = {
         'api_key': api_key,
         'committee_type': committee_type,
         'min_transaction_date': f'{year}-01-01',
         'max_transaction_date': f'{year}-12-31',
-        'per_page': 100,  # Adjust the number of results per page as needed
     }
 
     if state:
@@ -48,5 +46,4 @@ def get_expenditures(api_key, committee_type, year, state=None, district=None):
     response = requests.get(url, params=params)
     data = response.json()
 
-    # 'results' key might not exist at the top level, so return the entire response
     return data
