@@ -1,6 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
+def get_percentages(df, new_column, column, total):
+    df[new_column] = (df[column] / df[total]) * 100
+    df[new_column] = df[new_column].round(2)
+
 def get_url(state, year):
     state_url = state.replace(" ", "_")
     multi_url = "https://en.wikipedia.org/wiki/" + str(year) + "_United_States_House_of_Representatives_elections_in_" + state_url
