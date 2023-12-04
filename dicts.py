@@ -138,15 +138,15 @@ def acs():
         "Graduate degree" : "B06009_006E",
         "Total income" : "B06010_001E",
         "No income" : "B06010_002E",
-        "Median income" : "B06011_001E",
-        "Total poverty" : "B06012_001E",
-        "Income below poverty (White male)" : "B17001A_003E",
-        "Income below poverty (White female)" : "B17001A_017E",
-        "Income above poverty (White male)" : "B17001A_032E",
-        "Income above poverty (White female)" : "B17001A_046E",
-        "Income below poverty (Black male)" : "B17001B_003E",
-        "Income below poverty (Black female)" : "B17001B_017E",
-        "Income above poverty (Black male)" : "B17001B_032E",
-        "Income above poverty (Black female)" : "B17001B_046E"
+        "Income under 10k" : "B06010_004E",
+        "Income 10k to 15k" : "B06010_005E",
+        "Income 15k to 25k" : "B06010_006E",
+        "Income 25k to 35k" : "B06010_007E",
+        "Income 35k to 50k" : "B06010_008E",
+        "Income 50k to 65k" : "B06010_009E",
+        "Income 65k to 75k" : "B06010_010E",
+        "Income above 75k" : "B06010_011E",
+        "Income below poverty" : "B17001A_002E",
+        "Median income" : "B06011_001E"
     }
     return acs_codes
