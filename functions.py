@@ -1,4 +1,5 @@
 import requests
+import numpy as np
 from bs4 import BeautifulSoup
 
 def get_percentages(df, new_column, column, total):
@@ -36,3 +37,9 @@ def replace_if_not_number(string):
         string = string
     return string
 
+def percentage_within_threshold(y_true, y_pred, threshold_percent=5):
+    threshold = threshold_percent / 100.0
+    absolute_errors = np.abs(y_true - y_pred)
+    accurate_predictions = np.sum(absolute_errors <= threshold * np.abs(y_true))
+    accuracy = (accurate_predictions / len(y_true)) * 100.0
+    return accuracy
